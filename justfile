@@ -7,6 +7,9 @@ localsetup: install precommit_install
 # Linting and formatting with ruff
 ruff: lint format
 
+mdformat:
+    uv run --with mdformat-mkdocs --with mdformat-ruff --with ruff mdformat --check docs/ README.md || exit 1
+
 # Linting with ruff
 lint:
     uv run --group lint ruff check packages/ scripts/ || exit 1
@@ -25,13 +28,15 @@ mypy:
         uv run --group types mypy --check-untyped-defs --follow-untyped-imports $dir/src || exit 1; \
     done
 
+
 # Static analysis (lint + type checking)
 sa: ruff ty mypy
 
-# Format code and apply lint fixes with ruff
+# Format code and apply lint fixes with ruff and mdformat
 fix:
     uv run --group lint ruff format packages/ scripts/ || exit 1
-    uv run --group lint ruff check --fix packages/ scripts/
+    uv run --group lint ruff check --fix packages/ scripts/ || exit 1
+    uv run --with mdformat-mkdocs --with mdformat-ruff mdformat docs/ README.md
 
 # Test all packages individually
 # or test specific ones by passsing the names as arguments
