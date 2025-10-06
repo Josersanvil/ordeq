@@ -1,17 +1,11 @@
 from ordeq_iceberg.catalog import IcebergInMemoryCatalog
 from ordeq_iceberg.table import IcebergTable
 import pyiceberg.types as T
-from ordeq_common import Static
+from ordeq_common import Literal
 
 my_catalog = IcebergInMemoryCatalog(name="test_catalog")
 
-test_namespace = Static("test_namespace")
-
-my_load_table = IcebergTable(
-    catalog=my_catalog,
-    table_name="test_table",
-    namespace=test_namespace.value,
-)
+test_namespace = Literal[str]("test_namespace")
 
 my_save_table = IcebergTable(
     catalog=my_catalog,

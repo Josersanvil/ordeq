@@ -65,6 +65,7 @@ def test_resources(file_path: Path, capsys, caplog) -> None:
     try:
         spec.loader.exec_module(module)
     except Exception as e:
+        logging.getLogger().exception("Exception during module execution")
         sections["Exception"] = f"{type(e).__name__}: {e}"
 
     captured_out_err = capsys.readouterr()

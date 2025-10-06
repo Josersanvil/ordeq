@@ -20,7 +20,7 @@ class IfTableExistsSaveOptions(StrEnum):
 
 
 @dataclass(frozen=True, kw_only=True)
-class IcebergTable(IO[Table]):
+class IcebergTable(IO[Table | None]):
     """IO for loading an Iceberg table.
 
     Example:
@@ -69,7 +69,7 @@ class IcebergTable(IO[Table]):
         catalog = self.catalog.load()
         return catalog.load_table(self.table_identifier, **load_options)
 
-    def save(self, _, **save_options) -> None:
+    def save(self, _: None = None, **save_options) -> None:
         """Create the table in the catalog with the provided schema.
 
         Raises:
