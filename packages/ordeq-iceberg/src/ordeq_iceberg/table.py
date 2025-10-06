@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from enum import StrEnum
 
-from ordeq import IO, Input
+from ordeq.framework.io import Input, Output, _IOMeta  # noqa: PLC2701
 from pyiceberg.catalog import Catalog
 from pyiceberg.catalog.glue import GlueCatalog
 from pyiceberg.catalog.memory import InMemoryCatalog
@@ -20,7 +20,7 @@ class IfTableExistsSaveOptions(StrEnum):
 
 
 @dataclass(frozen=True, kw_only=True)
-class IcebergTable(IO[Table | None]):
+class IcebergTable(Input[Table], Output[None], metaclass=_IOMeta):
     """IO for loading an Iceberg table.
 
     Example:
@@ -65,7 +65,7 @@ class IcebergTable(IO[Table | None]):
         Returns:
             Table: The loaded Iceberg table instance
         """
-
+        print(f"Loading Iceberg table '{self.table_identifier}'...")
         catalog = self.catalog.load()
         return catalog.load_table(self.table_identifier, **load_options)
 
@@ -75,6 +75,7 @@ class IcebergTable(IO[Table | None]):
         Raises:
             ValueError: If the schema is not provided when creating a new table
         """
+        print(f"Saving Iceberg table '{self.table_identifier}'...")
         catalog = self.catalog.load()
         schema = self.schema or save_options.pop("schema", None)
         if schema is None:

@@ -1,11 +1,13 @@
-Exception:
-AttributeError: 'NoneType' object has no attribute 'schema'
-
 Output:
-Table loaded from catalog is: table {
-  1: id: required int
+Saving Iceberg table 'test_namespace.new_test_table'...
+Table loaded from catalog: 'new_test_table(
+  1: id: required int,
   2: data: optional string
-}
+),
+partition by: [],
+sort order: [],
+snapshot: null'
+Table loaded from IO object: 'None'
 
 Logging:
 INFO	ordeq.framework.io	Loading IcebergInMemoryCatalog(name='test_catalog')
@@ -13,32 +15,6 @@ INFO	ordeq.framework.io	Loading Literal('test_namespace')
 INFO	ordeq.framework.runner	Running node Node(name=resources.iceberg_test.nodes:create_save_table, inputs=[IcebergInMemoryCatalog(name='test_catalog'), Literal('test_namespace')], outputs=[IcebergTable(catalog=IcebergInMemoryCatalog(name='test_catalog'), table_name='new_test_table', namespace='test_namespace', schema=StructType(fields=(NestedField(field_id=1, name='id', field_type=IntegerType(), required=True), NestedField(field_id=2, name='data', field_type=StringType(), required=False),)), if_exists=None)])
 INFO	ordeq.framework.io	Saving IcebergTable(catalog=IcebergInMemoryCatalog(name='test_catalog'), table_name='new_test_table', namespace='test_namespace', schema=StructType(fields=(NestedField(field_id=1, name='id', field_type=IntegerType(), required=True), NestedField(field_id=2, name='data', field_type=StringType(), required=False),)), if_exists=None)
 INFO	ordeq.framework.runner	Running node Node(name=resources.iceberg_test.nodes:load_table, inputs=[IcebergInMemoryCatalog(name='test_catalog'), IcebergTable(catalog=IcebergInMemoryCatalog(name='test_catalog'), table_name='new_test_table', namespace='test_namespace', schema=StructType(fields=(NestedField(field_id=1, name='id', field_type=IntegerType(), required=True), NestedField(field_id=2, name='data', field_type=StringType(), required=False),)), if_exists=None)])
-ERROR	root	Exception during module execution
-Traceback (most recent call last):
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq-iceberg/tests/test_resources.py", line 66, in test_resources
-    spec.loader.exec_module(module)
-  File "<frozen importlib._bootstrap_external>", line 940, in exec_module
-  File "<frozen importlib._bootstrap>", line 241, in _call_with_frames_removed
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq-iceberg/tests/resources/run_nodes.py", line 4, in <module>
-    run(nodes)
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq/src/ordeq/framework/runner.py", line 212, in run
-    result = _run_graph(graph, hooks=node_hooks, save=save, io=io)
-             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq/src/ordeq/framework/runner.py", line 121, in _run_graph
-    computed = _run_node(patched_nodes[node], hooks=hooks, save=save_node)
-               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq/src/ordeq/framework/runner.py", line 64, in _run_node
-    raise exc
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq/src/ordeq/framework/runner.py", line 60, in _run_node
-    values = node.func(*args)
-             ^^^^^^^^^^^^^^^^
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq/src/ordeq/framework/nodes.py", line 299, in inner
-    return f(*args, **kwargs)
-           ^^^^^^^^^^^^^^^^^^
-  File "/Users/josesanchez/Documents/Open-Source-Projects/ordeq/packages/ordeq-iceberg/tests/resources/iceberg_test/nodes.py", line 14, in load_table
-    print(save_table.schema) # Raises error "AttributeError: 'NoneType' object has no attribute 'schema'"
-          ^^^^^^^^^^^^^^^^^
-AttributeError: 'NoneType' object has no attribute 'schema'
 
 Typing:
 packages/ordeq-iceberg/tests/resources/run_nodes.py:1: error: Skipping analyzing "resources.iceberg_test": module is installed, but missing library stubs or py.typed marker  [import-untyped]

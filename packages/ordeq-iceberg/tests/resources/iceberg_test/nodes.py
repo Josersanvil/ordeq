@@ -10,5 +10,5 @@ def create_save_table(catalog: Catalog, namespace: str) -> Catalog:
 @node(inputs=[my_catalog, my_save_table])
 def load_table(catalog: Catalog, save_table: Table):
     loaded_table = catalog.load_table("test_namespace.new_test_table")
-    print("Table loaded from catalog is:", loaded_table.schema())
-    print(save_table.schema) # Raises error "AttributeError: 'NoneType' object has no attribute 'schema'"
+    print(f"Table loaded from catalog: '{loaded_table}'")
+    print(f"Table loaded from IO object: '{save_table}'")
