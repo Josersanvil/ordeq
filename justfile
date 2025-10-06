@@ -98,8 +98,16 @@ precommit_install:
     uv run pre-commit install
 
 # Install development dependencies
-install:
-    uv sync --all-packages --all-groups --all-extras
+install *PACKAGES:
+    if [ -z "{{ PACKAGES }}" ]; then \
+        uv sync --all-packages --all-groups --all-extras; \
+    else \
+        package_params = ""; \
+        for package in {{ PACKAGES }}; do \
+            package_params+="--package $package "; \
+        done; \
+        uv sync $package_params --all-groups --all-extras; \
+    fi
 
 # Upgrade (pre-commit only)
 upgrade:

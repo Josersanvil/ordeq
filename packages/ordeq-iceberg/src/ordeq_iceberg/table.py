@@ -3,8 +3,11 @@ from enum import StrEnum
 
 from ordeq import IO, Input
 from pyiceberg.catalog import Catalog
+from pyiceberg.catalog.glue import GlueCatalog
+from pyiceberg.catalog.memory import InMemoryCatalog
 from pyiceberg.schema import Schema
 from pyiceberg.table import Table
+from pyiceberg.types import StructType
 
 
 class IfTableExistsSaveOptions(StrEnum):
@@ -38,10 +41,10 @@ class IcebergTable(IO[Table]):
 
     """
 
-    catalog: Input[Catalog]
+    catalog: Input[Catalog | GlueCatalog | InMemoryCatalog]
     table_name: str
     namespace: str
-    schema: Schema | None = None
+    schema: Schema | StructType | None = None
     """Schema to use when creating a new table. Required for saving"""
     if_exists: IfTableExistsSaveOptions | None = None
     """What to do if the table already exists when saving.
@@ -66,7 +69,7 @@ class IcebergTable(IO[Table]):
         catalog = self.catalog.load()
         return catalog.load_table(self.table_identifier, **load_options)
 
-    def save(self, **save_options) -> None:
+    def save(self, _, **save_options) -> None:
         """Create the table in the catalog with the provided schema.
 
         Raises:
@@ -76,6 +79,8 @@ class IcebergTable(IO[Table]):
         schema = self.schema or save_options.pop("schema", None)
         if schema is None:
             raise ValueError("Schema must be provided to create a new table.")
+        if isinstance(schema, StructType):
+            schema = Schema(*schema.fields)
         table_exists = self.table_exists()
         if table_exists:
             match self.if_exists:

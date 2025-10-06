@@ -1,12 +1,12 @@
 from dataclasses import dataclass
 
-from ordeq import Output
+from ordeq import Input
 from pyiceberg.catalog.glue import GlueCatalog
 from pyiceberg.catalog.memory import InMemoryCatalog
 
 
 @dataclass(frozen=True, kw_only=True)
-class IcebergGlueCatalog(Output[GlueCatalog]):
+class IcebergGlueCatalog(Input[GlueCatalog]):
     """IO for loading an AWS Glue Catalog for Iceberg tables."""
 
     name: str
@@ -16,7 +16,7 @@ class IcebergGlueCatalog(Output[GlueCatalog]):
 
 
 @dataclass(frozen=True, kw_only=True)
-class IcebergInMemoryCatalog(Output[GlueCatalog]):
+class IcebergInMemoryCatalog(Input[InMemoryCatalog]):
     """IO for loading an in-memory Catalog for Iceberg tables."""
 
     name: str

@@ -60,7 +60,7 @@ def _raise_not_implemented(*args, **kwargs):
     raise NotImplementedError()
 
 
-def _load_decorator(load_func):
+def _load_decorator(load_func: Callable[..., Tin]) -> Callable[..., Tin]:
     @wraps(load_func)
     def wrapper(self, *args, **kwargs):
         # wrappers defined in the base classes
@@ -140,7 +140,7 @@ class _InputMeta(type):
 
 
 class _BaseInput(Generic[Tin]):
-    load: Callable = _raise_not_implemented
+    load: Callable[..., Tin] = _raise_not_implemented
 
 
 class _InputOptions(_BaseInput[Tin]):

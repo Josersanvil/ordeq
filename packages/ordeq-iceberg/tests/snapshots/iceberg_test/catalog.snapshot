@@ -1,0 +1,4 @@
+Typing:
+packages/ordeq-iceberg/tests/resources/iceberg_test/catalog.py:11: error: Argument "catalog" to "IcebergTable" has incompatible type "IcebergInMemoryCatalog"; expected "Input[Catalog | GlueCatalog | InMemoryCatalog]"  [arg-type]
+packages/ordeq-iceberg/tests/resources/iceberg_test/catalog.py:17: error: Argument "catalog" to "IcebergTable" has incompatible type "IcebergInMemoryCatalog"; expected "Input[Catalog | GlueCatalog | InMemoryCatalog]"  [arg-type]
+Found 2 errors in 1 file (checked 1 source file)
