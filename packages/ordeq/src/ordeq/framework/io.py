@@ -385,7 +385,16 @@ class _OutputMeta(type):
                 sig.return_annotation != inspect.Signature.empty
                 and sig.return_annotation is not None
             ):
-                raise TypeError("Save method must have return type None.")
+                print(
+                    f"sig.return_annotation ({sig.return_annotation}) is None? {sig.return_annotation is None}"  # noqa: E501
+                )
+                print(
+                    f"type(sig.return_annotation) ({type(sig.return_annotation)}) is None? {type(sig.return_annotation) is None}"  # noqa: E501
+                )
+                raise TypeError(
+                    "Save method must have return type None, "
+                    f"got {sig.return_annotation}."
+                )
 
             if not hasattr(save_method, "__wrapped__"):
                 class_dict["save"] = _save_decorator(save_method)

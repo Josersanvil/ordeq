@@ -7,7 +7,7 @@ from typing import Literal, TypeVar, overload
 from ordeq.framework._gather import _collect_nodes
 from ordeq.framework.graph import NodeGraph
 from ordeq.framework.hook import NodeHook, RunHook
-from ordeq.framework.io import Input, Output, _InputCache
+from ordeq.framework.io import IO, Input, Output, _InputCache
 from ordeq.framework.nodes import Node
 
 logger = logging.getLogger(__name__)
@@ -74,7 +74,9 @@ def _run_node(
 
     # persisting computed data only if outputs are loaded again later
     for node_output in node.outputs:
-        if isinstance(node_output, _InputCache):
+        if isinstance(node_output, _InputCache) and isinstance(
+            node_output, IO
+        ):
             node_output.persist(computed[node_output])  # ty: ignore[call-non-callable]
 
     for node_hook in hooks:
