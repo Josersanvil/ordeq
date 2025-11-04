@@ -12,7 +12,7 @@ from ordeq_dev_tools.pipelines.docs_package_overview import (
     write_html_table_by_group,
     package_overview,
 )
-from ordeq_files.stream import FileStream
+from ordeq_files import TextLinesStream
 
 
 def test_compute_affected_dependencies():
@@ -41,7 +41,7 @@ def test_compute_affected_dependencies():
 def test_write_html_table_by_group(tmp_path: Path):
     """Test the write_html_table_by_group function."""
     fp = tmp_path / "packages.md"
-    tmp_package_overview = FileStream[str](path=fp, mode="w+")
+    tmp_package_overview = TextLinesStream(path=fp)
     run(
         write_html_table_by_group,
         io={
