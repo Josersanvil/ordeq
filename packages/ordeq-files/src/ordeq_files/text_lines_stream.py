@@ -27,10 +27,10 @@ class TextLinesStream(IO[Generator[str]]):
 
     path: PathLike
 
-    def load(self, mode="r") -> Generator[str, None, None]:
+    def load(self, mode="r") -> Generator[str]:
         with self.path.open(mode=mode) as fh:
             yield from fh
 
-    def save(self, data: Generator[str, None, None], mode="w") -> None:
+    def save(self, data: Generator[str], mode="w") -> None:
         with self.path.open(mode=mode) as fh:
             fh.writelines(data)
