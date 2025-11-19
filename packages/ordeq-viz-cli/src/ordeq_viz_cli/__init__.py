@@ -1,3 +1,4 @@
+import sys
 from argparse import ArgumentParser, Namespace
 from pathlib import Path
 
@@ -56,4 +57,10 @@ def main() -> None:
     """Main function for the CLI. Parses arguments and runs the viz."""
 
     args = parse_args()
-    viz(*args.packages, fmt=args.fmt, output=args.output)
+    output = args.output
+    if str(output) == "-":
+        output = None
+    output = viz(*args.packages, fmt=args.fmt, output=output)
+    if output and str(args.output) == "-":
+        sys.stdout.write(output)
+        sys.stdout.flush()
