@@ -32,135 +32,64 @@ run(sink, verbose=True)
 
 ```
 
-## Exception
+## Output
 
 ```text
-IOException: Failed to load IO(idx=ID1).
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    raise IOException(msg) from exc
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **kwargs)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    result = load_func(*args, **kwargs)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
+io-0 --> Node:__main__:hello_from_someone
+io-1 --> Node:__main__:hello_from_someone
+Node:__main__:hello_from_someone --> io-2
+io-2 --> View:__main__:what_i_heard
+View:__main__:what_i_heard --> io-3
+io-3 --> View:__main__:sink
+View:__main__:sink --> io-4
+I heard that Jane said 'Hello'
+None
+io-0 --> View:__main__:what_i_heard
+View:__main__:what_i_heard --> io-1
+io-1 --> View:__main__:sink
+View:__main__:sink --> io-2
+IOException: Failed to load IO(id=ID1).
 
   File "/packages/ordeq/src/ordeq/_io.py", line LINO, in wrapper
-    return composed(*args, **kwargs)
+    raise IOException(msg) from exc
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in _run_node
-    cast("Input", input_dataset).load() for input_dataset in node.inputs
-    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+    data = cast("Input", input_dataset).load()
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in _run_graph
-    _run_node(node, hooks=hooks, save=save_node)
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_node(node, hooks=hooks)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in run
-    _run_graph(graph, hooks=node_hooks, save=save)
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_graph(graph, hooks=node_hooks)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/tests/resources/views/view_takes_node_output.py", line LINO, in <module>
     run(sink, verbose=True)
     ~~~^^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-
-```
-
-## Output
-
-```text
-Node:view_takes_node_output:hello_from_someone --> io-1
-io-1 --> View:view_takes_node_output:what_i_heard
-View:view_takes_node_output:sink --> io-2
-View:view_takes_node_output:what_i_heard --> io-3
-io-3 --> View:view_takes_node_output:sink
-io-4 --> Node:view_takes_node_output:hello_from_someone
-io-5 --> Node:view_takes_node_output:hello_from_someone
-I heard that Jane said 'Hello'
-None
-View:view_takes_node_output:sink --> io-1
-View:view_takes_node_output:what_i_heard --> io-2
-io-2 --> View:view_takes_node_output:sink
-io-3 --> View:view_takes_node_output:what_i_heard
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```
 
 ## Logging
 
 ```text
-WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node 'view_takes_node_output:what_i_heard'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
-WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node 'view_takes_node_output:sink'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
+WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node '__main__:what_i_heard'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
+WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node '__main__:sink'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
 INFO	ordeq.io	Loading Literal('Jane')
 INFO	ordeq.io	Loading Literal('Hello')
-INFO	ordeq.runner	Running node "hello_from_someone" in module "view_takes_node_output"
-INFO	ordeq.runner	Running view "what_i_heard" in module "view_takes_node_output"
-INFO	ordeq.runner	Running view "sink" in module "view_takes_node_output"
-INFO	ordeq.io	Loading IO(idx=ID1)
+INFO	ordeq.runner	Running node "hello_from_someone" in module "__main__"
+INFO	ordeq.runner	Running view "what_i_heard" in module "__main__"
+INFO	ordeq.runner	Running view "sink" in module "__main__"
+INFO	ordeq.io	Loading IO(id=ID1)
 
 ```

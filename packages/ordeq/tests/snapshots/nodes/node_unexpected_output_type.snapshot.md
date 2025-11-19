@@ -13,10 +13,10 @@ def func(data: str) -> str:
 
 ```
 
-## Exception
+## Output
 
 ```text
-ValueError: Outputs of node 'node_unexpected_output_type:func' must be of type Output, got <class 'ordeq_common.io.literal.Literal'> 
+ValueError: Outputs of node '__main__:func' must be of type Output, got <class 'ordeq_common.io.literal.Literal'> 
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in _raise_for_invalid_outputs
     raise ValueError(
     ...<2 lines>...
@@ -35,8 +35,8 @@ ValueError: Outputs of node 'node_unexpected_output_type:func' must be of type O
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in create_node
     return Node(
         func=func,
-    ...<3 lines>...
-        attributes={} if attributes is None else attributes,
+    ...<4 lines>...
+        views=tuple(views),
     )
 
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in wrapped
@@ -51,12 +51,14 @@ ValueError: Outputs of node 'node_unexpected_output_type:func' must be of type O
     @node(inputs=x, outputs=x)  # outputs should be of type Output or IO
      ~~~~^^^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```

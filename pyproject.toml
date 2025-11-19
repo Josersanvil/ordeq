@@ -47,6 +47,7 @@ ordeq-joblib = { workspace = true }
 ordeq-matplotlib = { workspace = true }
 ordeq-numpy = { workspace = true }
 ordeq-pandas = { workspace = true }
+ordeq-pillow = { workspace = true }
 ordeq-polars = { workspace = true }
 ordeq-plotly-express = { workspace = true }
 ordeq-manifest = { workspace = true }
@@ -195,6 +196,10 @@ split-on-trailing-comma = false
     "S608",
     "SLF",
 ]
+# False positive
+"packages/ordeq-manifest/src/ordeq_manifest/models.py" = [
+    "PLC2701"
+]
 # Rules not applicable for example tests
 "examples/*/tests/*" = [
     "ANN201",
@@ -232,6 +237,9 @@ split-on-trailing-comma = false
 "examples/testing-nodes/tests/test_pipeline.py" = ["E402"]
 # Rules not applicable for private examples
 "packages/ordeq-test-examples/*" = ["D103", "INP001"]
+# Rules not applicable for framework extensions
+"packages/ordeq-viz/src/ordeq_viz/*" = ["PLC2701"]
+"packages/ordeq-manifest/src/ordeq_manifest/*" = ["SLF001"]
 
 [tool.ruff.lint.pydocstyle]
 convention = "google"

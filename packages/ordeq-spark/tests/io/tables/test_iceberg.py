@@ -92,7 +92,7 @@ def test_it_saves_if_exists(
     SparkIcebergTable(table=table).save(
         spark.createDataFrame(update_data, schema=cols),
         mode=mode,
-        partition_by=(("id",),),
+        partition_by="id",
     )
     actual = spark.table(table)
     expected = spark.createDataFrame(expected_data, schema=cols)
@@ -151,7 +151,6 @@ def test_it_saves_with_table_properties(spark: SparkSession):
     # |            col_name|           data_type|comment|
     # +--------------------+--------------------+-------+
     #  ...
-    # |               Owner|              sw05nn|       |
     # |    Table Properties|[commit.retry.num...|       |
     # +--------------------+--------------------+-------+
     # We are only interested in the last row for this test:

@@ -5,7 +5,7 @@ from ordeq import Node, node
 from ordeq._nodes import get_node
 from ordeq._resolve import (
     _is_node,
-    _resolve_node_reference,
+    _resolve_object_ref_to_node,
     _resolve_runnables_to_nodes,
 )
 
@@ -46,7 +46,7 @@ def test_resolve_node_by_reference(expected_example_node_objects) -> None:
     from example_1.nodes import world  # ty: ignore[unresolved-import]
 
     nodes = _resolve_runnables_to_nodes("example_1.nodes:world")
-    assert nodes == {get_node(world)}
+    assert nodes == [("example_1.nodes", "world", get_node(world))]
 
 
 def test_resolve_node_by_reference_not_a_node() -> None:
@@ -64,7 +64,7 @@ def test_resolve_node_by_reference_no_module() -> None:
     with pytest.raises(
         ValueError, match="Invalid object reference: 'invalidformat'"
     ):
-        _resolve_node_reference("invalidformat")
+        _resolve_object_ref_to_node("invalidformat")
 
 
 def test_is_node_proxy():

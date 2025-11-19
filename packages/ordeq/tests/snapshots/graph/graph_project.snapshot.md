@@ -5,15 +5,17 @@
 from pprint import pprint
 
 import example_project
-from ordeq._graph import NodeGraph, NodeIOGraph
+from ordeq._graph import NodeGraph, NodeIOGraph, _collect_views
 from ordeq._resolve import _resolve_runnables_to_nodes
 
-nodes = _resolve_runnables_to_nodes(example_project)
-base_graph = NodeIOGraph.from_nodes(nodes)
+fqn_nodes = _resolve_runnables_to_nodes(example_project)
+nodes = [node for _, _, node in fqn_nodes]
+nodes_and_views = _collect_views(*nodes)
+base_graph = NodeIOGraph.from_nodes(nodes_and_views)
 print("NodeIOGraph")
 print(base_graph)
 
-node_graph = NodeGraph.from_graph(base_graph)
+node_graph = NodeGraph.from_nodes(nodes_and_views)
 print("NodeGraph")
 print(node_graph)
 
@@ -26,53 +28,43 @@ pprint([node.name for node in node_graph.topological_ordering])
 
 ```text
 NodeIOGraph
-Node:example_project.inner.nodes:func --> io-1
-Node:example_project.nodes:func --> io-2
-Node:example_project.nodes_import:func_a --> io-3
-Node:example_project.nodes_import:func_b --> io-4
-Node:example_project.nodes_import_alias:func --> io-5
-Node:example_project.nodes_import_reassign:func_a --> io-6
-Node:example_project.nodes_import_reassign:func_b --> io-7
+io-0 --> View:example_project.nodes_with_view:greet
+View:example_project.nodes_with_view:greet --> io-1
+io-1 --> Node:example_project.nodes_with_view:farewell
+io-2 --> Node:example_project.nodes_with_inline_io:greet
+io-3 --> Node:example_project.nodes_import:func_a
+io-3 --> Node:example_project.nodes_import:func_b
+io-3 --> Node:example_project.nodes_import_alias:func
+io-4 --> Node:example_project.nodes_import:func_a
+io-4 --> Node:example_project.nodes_import:func_b
+io-4 --> Node:example_project.nodes_import_alias:func
+io-5 --> Node:example_project.nodes:func
+io-6 --> Node:example_project.inner.nodes:func
+Node:example_project.nodes_with_view:farewell --> io-7
 Node:example_project.nodes_with_inline_io:greet --> io-8
-Node:example_project.nodes_with_view:farewell --> io-9
-View:example_project.nodes_with_view:greet --> io-10
-io-10 --> Node:example_project.nodes_with_view:farewell
-io-11 --> Node:example_project.inner.nodes:func
-io-12 --> Node:example_project.nodes:func
-io-13 --> Node:example_project.nodes_import:func_a
-io-13 --> Node:example_project.nodes_import:func_b
-io-13 --> Node:example_project.nodes_import_alias:func
-io-13 --> Node:example_project.nodes_import_reassign:func_a
-io-13 --> Node:example_project.nodes_import_reassign:func_b
-io-14 --> Node:example_project.nodes_import:func_a
-io-14 --> Node:example_project.nodes_import:func_b
-io-14 --> Node:example_project.nodes_import_alias:func
-io-14 --> Node:example_project.nodes_import_reassign:func_a
-io-14 --> Node:example_project.nodes_import_reassign:func_b
-io-15 --> Node:example_project.nodes_with_inline_io:greet
-io-16 --> View:example_project.nodes_with_view:greet
+Node:example_project.nodes_import_alias:func --> io-9
+Node:example_project.nodes_import:func_b --> io-10
+Node:example_project.nodes_import:func_a --> io-11
+Node:example_project.nodes:func --> io-12
+Node:example_project.inner.nodes:func --> io-13
 NodeGraph
+View:example_project.nodes_with_view:greet --> Node:example_project.nodes_with_view:farewell
 Node:example_project.inner.nodes:func
 Node:example_project.nodes:func
 Node:example_project.nodes_import:func_a
 Node:example_project.nodes_import:func_b
 Node:example_project.nodes_import_alias:func
-Node:example_project.nodes_import_reassign:func_a
-Node:example_project.nodes_import_reassign:func_b
 Node:example_project.nodes_with_inline_io:greet
 Node:example_project.nodes_with_view:farewell
-View:example_project.nodes_with_view:greet --> Node:example_project.nodes_with_view:farewell
 Topological ordering
 ['example_project.nodes_with_view:greet',
- 'example_project.nodes_with_view:farewell',
- 'example_project.nodes_with_inline_io:greet',
- 'example_project.nodes_import_reassign:func_b',
- 'example_project.nodes_import_reassign:func_a',
- 'example_project.nodes_import_alias:func',
- 'example_project.nodes_import:func_b',
- 'example_project.nodes_import:func_a',
+ 'example_project.inner.nodes:func',
  'example_project.nodes:func',
- 'example_project.inner.nodes:func']
+ 'example_project.nodes_import:func_a',
+ 'example_project.nodes_import:func_b',
+ 'example_project.nodes_import_alias:func',
+ 'example_project.nodes_with_inline_io:greet',
+ 'example_project.nodes_with_view:farewell']
 
 ```
 

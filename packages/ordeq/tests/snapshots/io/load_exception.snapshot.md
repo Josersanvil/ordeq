@@ -14,97 +14,33 @@ mock.load()
 
 ```
 
-## Exception
+## Output
 
 ```text
-IOException: Failed to load Input(idx=ID1).
+IOException: Failed to load Input(id=ID1).
 Some load exception
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    raise IOException(msg) from exc
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **kwargs)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    result = load_func(*args, **kwargs)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in load_wrapper
-    return load_func(*args, **load_options)
-
-  File "/packages/ordeq/src/ordeq/_io.py", line LINO, in <lambda>
-    lambda prev_func, wrap: lambda *a, **k: wrap(
-                                            ~~~~^
-        self, prev_func, *a, **k
-        ^^^^^^^^^^^^^^^^^^^^^^^^
-    ),
-    ^
-
   File "/packages/ordeq/src/ordeq/_io.py", line LINO, in wrapper
-    return composed(*args, **kwargs)
+    raise IOException(msg) from exc
 
   File "/packages/ordeq/tests/resources/io/load_exception.py", line LINO, in <module>
     mock.load()
     ~~~~~~~~~^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```
 
 ## Logging
 
 ```text
-INFO	ordeq.io	Loading Input(idx=ID1)
+INFO	ordeq.io	Loading Input(id=ID1)
 
 ```

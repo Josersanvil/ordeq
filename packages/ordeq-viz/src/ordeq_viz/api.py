@@ -1,46 +1,57 @@
+import logging
 from pathlib import Path
-from typing import Any, Literal, overload
+from types import ModuleType
+from typing import Any, Literal, TypeAlias, overload
 
-from ordeq._resolve import (
-    _resolve_runnables_to_nodes_and_ios,  # noqa: PLC2701 (private-member-access)
-)
-from ordeq._runner import Runnable
+from ordeq._fqn import ModuleRef
+from ordeq._resolve import _resolve_runnables_to_nodes_and_ios
+from ordeq._runner import NodeFilter
 
-from ordeq_viz.to_kedro_viz import pipeline_to_kedro_viz
-from ordeq_viz.to_mermaid import pipeline_to_mermaid
+from ordeq_viz.graph import _gather_graph
+from ordeq_viz.to_kedro_viz import graph_to_kedro_viz
+from ordeq_viz.to_mermaid import graph_to_mermaid
+from ordeq_viz.to_mermaid_md import graph_to_mermaid_md
+
+Vizzable: TypeAlias = ModuleRef | ModuleType
+
+
+logger = logging.getLogger("ordeq.viz")
 
 
 @overload
 def viz(
-    *runnables: Runnable,
-    fmt: Literal["kedro-viz", "mermaid"],
+    *vizzables: Vizzable,
+    fmt: Literal["kedro-viz", "mermaid", "mermaid-md"],
     output: Path,
+    node_filter: NodeFilter | None = None,
     **options: Any,
 ) -> None: ...
 
 
 @overload
 def viz(
-    *runnables: Runnable,
-    fmt: Literal["mermaid"],
+    *vizzables: Vizzable,
+    fmt: Literal["mermaid", "mermaid-md"],
     output: None = None,
+    node_filter: NodeFilter | None = None,
     **options: Any,
 ) -> str: ...
 
 
 def viz(
-    *runnables: Runnable,
-    fmt: Literal["kedro-viz", "mermaid"],
+    *vizzables: Vizzable,
+    fmt: Literal["kedro-viz", "mermaid", "mermaid-md"],
     output: Path | None = None,
+    node_filter: NodeFilter | None = None,
     **options: Any,
 ) -> str | None:
     """Visualize the pipeline from the provided packages, modules, or nodes
 
     Args:
-        runnables: Package names, modules, or node callables from which to
-            gather nodes from.
+        vizzables: modules or references to modules to visualize.
         fmt: Format of the output visualization, ("kedro-viz" or "mermaid").
         output: output file or directory where the viz will be saved.
+        node_filter: Optional filter to apply to nodes before visualization.
         options: Additional options for the visualization functions.
 
     Returns:
@@ -48,10 +59,27 @@ def viz(
         diagram as a string. Otherwise, returns None.
 
     Raises:
+        TypeError: If any of the `vizzables` are not modules or module
+            references.
         ValueError: If `fmt` is 'kedro-viz' and `output` is not provided.
     """
 
-    nodes, ios = _resolve_runnables_to_nodes_and_ios(*runnables)
+    if not all(isinstance(v, (ModuleType, str)) for v in vizzables):
+        raise TypeError(
+            "All vizzables must be modules or references to modules."
+        )
+
+    nodes, ios = _resolve_runnables_to_nodes_and_ios(*vizzables)
+    # TODO: Propagate FQNs to viz
+    nodes_ = [node for _, _, node in nodes]
+    if node_filter:
+        logger.warning(
+            "Node filters are in preview mode and may change "
+            "without notice in future releases."
+        )
+        nodes_ = [node for node in nodes_ if node_filter(node)]
+
+    graph = _gather_graph(nodes_, ios)
 
     match fmt:
         case "kedro-viz":
@@ -59,12 +87,17 @@ def viz(
                 raise ValueError(
                     "`output` is required when `fmt` is 'kedro-viz'"
                 )
-            pipeline_to_kedro_viz(
-                nodes, ios, output_directory=output, **options
-            )
+            graph_to_kedro_viz(graph, output_directory=output, **options)
         case "mermaid":
-            result = pipeline_to_mermaid(nodes, ios, **options)
+            result = graph_to_mermaid(graph, **options)
             if output:
                 output.write_text(result, encoding="utf8")
+                return None
+            return result
+        case "mermaid-md":
+            result = graph_to_mermaid_md(graph, **options)
+            if output:
+                output.write_text(result, encoding="utf8")
+                return None
             return result
     return None

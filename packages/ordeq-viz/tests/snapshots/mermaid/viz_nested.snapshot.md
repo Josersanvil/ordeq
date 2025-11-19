@@ -2,12 +2,10 @@
 
 ```python
 import example_nested
-from ordeq._resolve import _resolve_runnables_to_nodes_and_ios
 
-from ordeq_viz.to_mermaid import pipeline_to_mermaid
+from ordeq_viz import viz
 
-nodes, ios = _resolve_runnables_to_nodes_and_ios(example_nested)
-diagram = pipeline_to_mermaid(nodes=nodes, ios=ios, subgraphs=True)
+diagram = viz(example_nested, fmt="mermaid", subgraphs=True)
 print(diagram)
 
 ```
@@ -19,22 +17,19 @@ graph TB
 	subgraph legend["Legend"]
 		direction TB
 		L0@{shape: rounded, label: "Node"}
-		L00@{shape: rect, label: "IO"}
+		L2@{shape: subroutine, label: "View"}
 	end
 
-	example_nested.subpackage.subsubpackage.hello:world --> IO0
 
 	subgraph s0["example_nested.subpackage.subsubpackage.hello"]
 		direction TB
-		example_nested.subpackage.subsubpackage.hello:world@{shape: rounded, label: "world"}
+		example_nested.subpackage.subsubpackage.hello:world@{shape: subroutine, label: "world"}
 	end
-	IO0@{shape: rect, label: "&lt;anonymous&gt;"}
 
-	class L0,example_nested.subpackage.subsubpackage.hello:world node
-	class L00,IO0 io0
+	class L0 node
+	class L2,example_nested.subpackage.subsubpackage.hello:world view
 	classDef node fill:#008AD7,color:#FFF
-	classDef io fill:#FFD43B
-	classDef io0 fill:#66c2a5
+	classDef view fill:#00C853,color:#FFF
 
 
 ```

@@ -25,9 +25,10 @@ print(spy.called_with)
 
 ```
 
-## Exception
+## Output
 
 ```text
+[('before_node_run', Node(name=__main__:hello, inputs=[Literal('name')], outputs=[IO(id=ID1)])), ('after_node_run', Node(name=__main__:hello, inputs=[Literal('name')], outputs=[IO(id=ID1)]))]
 ValueError: Intentional failure for testing.
   File "/packages/ordeq-common/tests/resources/hooks/spy_hook.py", line LINO, in fail
     raise ValueError("Intentional failure for testing.")
@@ -42,40 +43,35 @@ ValueError: Intentional failure for testing.
     raise exc
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in _run_graph
-    _run_node(node, hooks=hooks, save=save_node)
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_node(node, hooks=hooks)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in run
-    _run_graph(graph, hooks=node_hooks, save=save)
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_graph(graph, hooks=node_hooks)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq-common/tests/resources/hooks/spy_hook.py", line LINO, in <module>
     run(fail, hooks=[spy])
     ~~~^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-
-```
-
-## Output
-
-```text
-[('before_node_run', Node(name=spy_hook:hello, inputs=[Literal('name')], outputs=[IO(idx=ID1)])), ('after_node_run', Node(name=spy_hook:hello, inputs=[Literal('name')], outputs=[IO(idx=ID1)]))]
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```
 
 ## Logging
 
 ```text
-WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node 'spy_hook:fail'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
+WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node '__main__:fail'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
 INFO	ordeq.io	Loading Literal('name')
-INFO	ordeq.runner	Running node "hello" in module "spy_hook"
-INFO	ordeq.runner	Running view "fail" in module "spy_hook"
+INFO	ordeq.runner	Running node "hello" in module "__main__"
+INFO	ordeq.runner	Running view "fail" in module "__main__"
 
 ```

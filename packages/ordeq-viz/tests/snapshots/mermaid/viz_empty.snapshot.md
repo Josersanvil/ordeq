@@ -2,12 +2,10 @@
 
 ```python
 import example_empty
-from ordeq._resolve import _resolve_runnables_to_nodes_and_ios
 
-from ordeq_viz.to_mermaid import pipeline_to_mermaid
+from ordeq_viz import viz
 
-nodes, ios = _resolve_runnables_to_nodes_and_ios(example_empty)
-diagram = pipeline_to_mermaid(nodes=nodes, ios=ios)
+diagram = viz(example_empty, fmt="mermaid", subgraphs=True)
 print(diagram)
 
 ```
@@ -18,8 +16,13 @@ print(diagram)
 graph TB
 
 
-	classDef node fill:#008AD7,color:#FFF
-	classDef io fill:#FFD43B
 
+
+```
+
+## Logging
+
+```text
+WARNING	ordeq_viz.to_mermaid	Subgraphs are in pre-release, functionality may break in future releases without it being considered a breaking change.
 
 ```

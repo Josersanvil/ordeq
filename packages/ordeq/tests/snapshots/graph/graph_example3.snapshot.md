@@ -8,12 +8,13 @@ import example_3
 from ordeq._graph import NodeGraph, NodeIOGraph
 from ordeq._resolve import _resolve_runnables_to_nodes
 
-nodes = _resolve_runnables_to_nodes(example_3)
+fqn_nodes = _resolve_runnables_to_nodes(example_3)
+nodes = [node for _, _, node in fqn_nodes]
 base_graph = NodeIOGraph.from_nodes(nodes)
 print("NodeIOGraph")
 print(base_graph)
 
-node_graph = NodeGraph.from_graph(base_graph)
+node_graph = NodeGraph.from_nodes(nodes)
 print("NodeGraph")
 print(node_graph)
 
@@ -26,8 +27,8 @@ pprint([node.name for node in node_graph.topological_ordering])
 
 ```text
 NodeIOGraph
+View:example_3.func_defs:hello --> io-0
 View:example_3.func_defs:hello --> io-1
-View:example_3.func_defs:hello --> io-2
 NodeGraph
 View:example_3.func_defs:hello
 View:example_3.func_defs:hello

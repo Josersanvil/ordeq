@@ -26,48 +26,44 @@ run(my_node, load_node)
 
 ```
 
-## Exception
+## Output
 
 ```text
+saving! Hello, World!
 AttributeError: 'Example' object has no attribute 'load'
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in _run_node
-    cast("Input", input_dataset).load() for input_dataset in node.inputs
-    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    data = cast("Input", input_dataset).load()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in _run_graph
-    _run_node(node, hooks=hooks, save=save_node)
-    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_node(node, hooks=hooks)
+    ~~~~~~~~~^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in run
-    _run_graph(graph, hooks=node_hooks, save=save)
-    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    _run_graph(graph, hooks=node_hooks)
+    ~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^
 
   File "/packages/ordeq/tests/resources/runner/runner_load_output.py", line LINO, in <module>
     run(my_node, load_node)
     ~~~^^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
-
-```
-
-## Output
-
-```text
-saving! Hello, World!
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```
 
 ## Logging
 
 ```text
-WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node 'runner_load_output:load_node'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
-INFO	ordeq.runner	Running node "my_node" in module "runner_load_output"
-INFO	ordeq.io	Saving Output(idx=ID1)
+WARNING	ordeq.nodes	Creating a view, as no outputs were provided for node '__main__:load_node'. Views are in pre-release, functionality may break without notice. Use @node(outputs=...) to create a regular node. 
+INFO	ordeq.runner	Running node "my_node" in module "__main__"
+INFO	ordeq.io	Saving Output(id=ID1)
 
 ```

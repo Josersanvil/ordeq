@@ -25,7 +25,7 @@ run(uppercase, add_world, io={catalog: inconsistent})
 
 ```
 
-## Exception
+## Output
 
 ```text
 CatalogError: Catalog 'example_catalogs.inconsistent' is missing IO(s) 'result'
@@ -43,18 +43,20 @@ CatalogError: Catalog 'example_catalogs.inconsistent' is missing IO(s) 'result'
                             ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
 
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in run
-    patches = _substitutes_modules_to_ios(io_subs)
+    user_patches = _substitutes_modules_to_ios(io_subs)
 
   File "/packages/ordeq/tests/resources/runner/run_io_catalog_inconsistent.py", line LINO, in <module>
     run(uppercase, add_world, io={catalog: inconsistent})
     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```

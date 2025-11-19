@@ -14,10 +14,10 @@ def say_hello() -> str:
 
 ```
 
-## Exception
+## Output
 
 ```text
-ValueError: Outputs of node 'node_outputs_regular_func:say_hello' must be of type Output, got <class 'function'> 
+ValueError: Outputs of node '__main__:say_hello' must be of type Output, got <class 'function'> 
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in _raise_for_invalid_outputs
     raise ValueError(
     ...<2 lines>...
@@ -36,8 +36,8 @@ ValueError: Outputs of node 'node_outputs_regular_func:say_hello' must be of typ
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in create_node
     return Node(
         func=func,
-    ...<3 lines>...
-        attributes={} if attributes is None else attributes,
+    ...<4 lines>...
+        views=tuple(views),
     )
 
   File "/packages/ordeq/src/ordeq/_nodes.py", line LINO, in wrapped
@@ -52,12 +52,14 @@ ValueError: Outputs of node 'node_outputs_regular_func:say_hello' must be of typ
     @node(outputs=hello)
      ~~~~^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```

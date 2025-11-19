@@ -21,26 +21,32 @@ run(func1, func2, verbose=True)
 
 ```
 
-## Exception
+## Output
 
 ```text
-ValueError: IO StringBuffer(_buffer=<_io.StringIO object at HASH1>) cannot be outputted by more than one node (runner_non_distinct_ios:func1 and runner_non_distinct_ios:func2)
+ValueError: Nodes '__main__:func2' and '__main__:func1' both output to Resource(value=StringBuffer(_buffer=<_io.StringIO object at HASH1>)). Nodes cannot output to the same resource.
   File "/packages/ordeq/src/ordeq/_graph.py", line LINO, in from_nodes
     raise ValueError(msg)
 
+  File "/packages/ordeq/src/ordeq/_graph.py", line LINO, in from_nodes
+    return cls.from_graph(NodeResourceGraph.from_nodes(nodes))
+                          ~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+
   File "/packages/ordeq/src/ordeq/_runner.py", line LINO, in run
-    graph_with_io = NodeIOGraph.from_nodes(nodes, patches=patches)  # type: ignore[arg-type]
+    graph = NodeGraph.from_nodes(nodes_and_views)
 
   File "/packages/ordeq/tests/resources/runner/runner_non_distinct_ios.py", line LINO, in <module>
     run(func1, func2, verbose=True)
     ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-  File "<frozen importlib._bootstrap>", line LINO, in _call_with_frames_removed
+  File "<frozen runpy>", line LINO, in _run_code
 
-  File "<frozen importlib._bootstrap_external>", line LINO, in exec_module
+  File "<frozen runpy>", line LINO, in _run_module_code
+
+  File "<frozen runpy>", line LINO, in run_path
 
   File "/packages/ordeq-test-utils/src/ordeq_test_utils/snapshot.py", line LINO, in run_module
-    spec.loader.exec_module(module)
-    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^
+    run_path(str(file_path), run_name="__main__")
+    ~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
 ```

@@ -14,6 +14,16 @@ print(create_manifest_json(nodes_with_view))
 {
   "name": "example_project.nodes_with_view",
   "nodes": {
+    "example_project.nodes_with_view:greet": {
+      "name": "greet",
+      "inputs": [
+        "example_project.nodes_with_view:greeting"
+      ],
+      "outputs": [
+        "example_project.nodes_with_view:<anonymous0>"
+      ],
+      "attributes": {}
+    },
     "example_project.nodes_with_view:farewell": {
       "name": "farewell",
       "inputs": [
@@ -26,27 +36,29 @@ print(create_manifest_json(nodes_with_view))
     }
   },
   "ios": {
-    "example_project.nodes_with_view:<anonymous0>": {
-      "name": "<anonymous0>",
-      "type": "ordeq._io:IO",
-      "references": []
-    },
-    "example_project.nodes_with_view:<anonymous1>": {
-      "name": "<anonymous1>",
-      "type": "ordeq._io:IO",
-      "references": []
-    },
     "example_project.nodes_with_view:greeting": {
       "name": "greeting",
       "type": "ordeq_common.io.literal:Literal",
-      "references": []
+      "resource": null,
+      "references": [],
+      "attributes": {}
     },
     "example_project.nodes_with_view:printer": {
       "name": "printer",
       "type": "ordeq_common.io.printer:Print",
-      "references": []
+      "resource": null,
+      "references": [],
+      "attributes": {}
+    },
+    "example_project.nodes_with_view:<anonymous0>": {
+      "name": "<anonymous0>",
+      "type": "ordeq._io:IO",
+      "resource": null,
+      "references": [],
+      "attributes": {}
     }
-  }
+  },
+  "resources": []
 }
 
 ```

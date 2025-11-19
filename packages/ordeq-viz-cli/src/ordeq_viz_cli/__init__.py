@@ -32,8 +32,19 @@ def _create_parser() -> ArgumentParser:
             "Output format for the visualization. "
             "Supported formats: kedro, mermaid."
         ),
-        choices=("kedro", "mermaid"),
+        choices=("kedro", "mermaid", "mermaid-md"),
         default="mermaid",
+    )
+    parser.add_argument(
+        "--option",
+        nargs=2,
+        action="append",
+        metavar=("key", "value"),
+        default=[],
+        help=(
+            "Additional options for the visualization functions, "
+            "specified as 'key value' pairs."
+        ),
     )
     return parser
 
@@ -60,7 +71,9 @@ def main() -> None:
     output = args.output
     if str(output) == "-":
         output = None
-    output = viz(*args.packages, fmt=args.fmt, output=output)
+    output = viz(
+        *args.packages, fmt=args.fmt, output=output, **dict(args.option)
+    )
     if output and str(args.output) == "-":
         sys.stdout.write(output)
         sys.stdout.flush()
