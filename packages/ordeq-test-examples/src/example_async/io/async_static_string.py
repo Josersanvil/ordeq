@@ -16,6 +16,6 @@ class AsyncStaticString(Input[str]):
     value: str
     sleep_delay: float = 1.0  # seconds
 
-    async def load(self) -> str:
+    async def load(self) -> str:  # type: ignore[override]
         await asyncio.sleep(self.sleep_delay)  # Simulate async load delay
         return self.value
