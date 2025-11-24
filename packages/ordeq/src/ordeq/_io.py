@@ -291,7 +291,7 @@ class _IOMeta(type):
 
 
 class _BaseInput(Generic[Tin]):
-    load: Callable = _raise_not_implemented
+    load: Callable[..., Tin] = _raise_not_implemented
 
 
 class _InputOptions(_BaseInput[Tin]):
@@ -509,7 +509,7 @@ class Input(
 
 
 class _BaseOutput(Generic[Tout]):
-    save: Callable = _pass
+    save: Callable[[Tout], None] = _pass
 
 
 class _OutputOptions(_BaseOutput[Tout], Generic[Tout]):
