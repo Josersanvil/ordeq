@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Literal
 
 import polars as pl
-from ordeq import Output
+from ordeq import Input, Output
 
 try:
     from pyiceberg.table import Table
@@ -39,5 +39,8 @@ class PolarsEagerIceberg(Output[pl.DataFrame]):
             df: The DataFrame to write
             mode: The write mode ("append" or "overwrite")
         """
-
-        df.write_iceberg(target=self.path, mode=mode)
+        if isinstance(self.path, Input):
+            source = self.path.load()
+        else:
+            source = self.path
+        df.write_iceberg(target=source, mode=mode)

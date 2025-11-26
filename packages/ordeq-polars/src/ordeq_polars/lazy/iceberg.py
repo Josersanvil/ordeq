@@ -2,7 +2,7 @@ from dataclasses import dataclass
 from typing import Any
 
 import polars as pl
-from ordeq import IO
+from ordeq import IO, Input
 
 try:
     from pyiceberg.table import Table
@@ -28,7 +28,7 @@ class PolarsLazyIceberg(IO[pl.LazyFrame]):
 
     """
 
-    path: str | Table
+    path: str | Table | Input[Table | str]
 
     def load(self, **load_options: Any) -> pl.LazyFrame:
         """Load an Iceberg table.
@@ -39,4 +39,8 @@ class PolarsLazyIceberg(IO[pl.LazyFrame]):
         Returns:
             LazyFrame containing the Iceberg table data
         """
-        return pl.scan_iceberg(source=self.path, **load_options)
+        if isinstance(self.path, Input):
+            source = self.path.load()
+        else:
+            source = self.path
+        return pl.scan_iceberg(source=source, **load_options)
