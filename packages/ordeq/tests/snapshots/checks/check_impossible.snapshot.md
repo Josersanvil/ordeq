@@ -30,7 +30,7 @@ if __name__ == "__main__":
 Expected output is an error due to impossible check
 CycleError: ('nodes are in a cycle', [Node(module=__main__, name=simple_node, inputs=[Literal('hello')], outputs=[StringBuffer(_buffer=<_io.StringIO object at HASH1>)]), Resource(value=IO(id=ID1)), View(module=__main__, name=check_impossible, inputs=[Literal('hello'), StringBuffer(_buffer=<_io.StringIO object at HASH1>)]), Resource(value=StringBuffer(_buffer=<_io.StringIO object at HASH1>)), Node(module=__main__, name=simple_node, inputs=[Literal('hello')], outputs=[StringBuffer(_buffer=<_io.StringIO object at HASH1>)])])
   File "/graphlib.py", line LINO, in prepare
-    raise CycleError(f"nodes are in a cycle", cycle)
+    raise CycleError("nodes are in a cycle", cycle)
 
   File "/packages/ordeq/src/ordeq/_graph.py", line LINO, in topological_levels
     sorter.prepare()

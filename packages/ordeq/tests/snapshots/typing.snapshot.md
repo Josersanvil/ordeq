@@ -28,17 +28,53 @@ packages/ordeq/tests/resources/nodes/node_float.py:5: note:     def [FuncParams`
 packages/ordeq/tests/resources/nodes/node_float.py:5: note:     def node(*, inputs: Sequence[Input[Any] | Callable[..., Any]] | Input[Any] | Callable[..., Any] = ..., outputs: Sequence[Output[Any]] | Output[Any] | None = ..., checks: Sequence[Input[Any] | Output[Any] | Callable[..., Any]] | Input[Any] | Output[Any] | Callable[..., Any] | None = ..., **attributes: Any) -> Callable[[Callable[FuncParams, FuncReturns]], Node[FuncParams, FuncReturns]]
 packages/ordeq/tests/resources/io/save_with_kwarg_data.py:5: note: "save" of "Example" defined here
 packages/ordeq/tests/resources/io/save_with_kwarg_data.py:13: error: Unexpected keyword argument "data" for "save" of "Example"  [call-arg]
+packages/ordeq/tests/resources/io/output_save_without_argument.py:8: error: Signature of "save" incompatible with supertype "ordeq._io._BaseOutput"  [override]
+packages/ordeq/tests/resources/io/output_save_without_argument.py:8: note:      Superclass:
+packages/ordeq/tests/resources/io/output_save_without_argument.py:8: note:          def (Any, /) -> None
+packages/ordeq/tests/resources/io/output_save_without_argument.py:8: note:      Subclass:
+packages/ordeq/tests/resources/io/output_save_without_argument.py:8: note:          def save(self) -> None
+packages/ordeq/tests/resources/io/output_returns.py:8: error: Return type "str" of "save" incompatible with return type "None" in supertype "ordeq._io._BaseOutput"  [override]
+packages/ordeq/tests/resources/io/output_mismatch_save_argument.py:12: error: Argument 1 of "save" is incompatible with supertype "ordeq._io._BaseOutput"; supertype defines the argument type as "int"  [override]
+packages/ordeq/tests/resources/io/output_mismatch_save_argument.py:12: note: This violates the Liskov substitution principle
+packages/ordeq/tests/resources/io/output_mismatch_save_argument.py:12: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
+packages/ordeq/tests/resources/io/io_static_load.py:6: error: Signature of "load" incompatible with supertype "ordeq._io._BaseInput"  [override]
+packages/ordeq/tests/resources/io/io_static_load.py:6: note:      Superclass:
+packages/ordeq/tests/resources/io/io_static_load.py:6: note:          def (*Any, **Any) -> str
+packages/ordeq/tests/resources/io/io_static_load.py:6: note:      Subclass:
+packages/ordeq/tests/resources/io/io_static_load.py:6: note:          @staticmethod
+packages/ordeq/tests/resources/io/io_static_load.py:6: note:          def load() -> None
 packages/ordeq/tests/resources/io/io_name.py:5: error: Need type annotation for "a"  [var-annotated]
 packages/ordeq/tests/resources/io/io_name.py:6: error: Need type annotation for "b"  [var-annotated]
 packages/ordeq/tests/resources/io/io_name.py:7: error: Need type annotation for "c"  [var-annotated]
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: error: Signature of "save" incompatible with supertype "ordeq._io._BaseOutput"  [override]
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:      Superclass:
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:          def (bytes | str, /) -> None
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:      Subclass:
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:          @overload
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:          def save(self, data: str, encoding: str | None = ...) -> None
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:          @overload
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:20: note:          def save(self, data: bytes, encoding: None = ...) -> None
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:46: error: No overload variant of "save" of "Text" matches argument types "bytes", "str"  [call-overload]
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:46: note: Possible overload variants:
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:46: note:     def save(self, data: str, encoding: str | None = ...) -> None
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save_options.py:46: note:     def save(self, data: bytes, encoding: None = ...) -> None
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: error: Signature of "save" incompatible with supertype "ordeq._io._BaseOutput"  [override]
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:      Superclass:
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:          def (bytes | str, /) -> None
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:      Subclass:
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:          @overload
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:          def save(self, data: str) -> Any
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:          @overload
+packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:20: note:          def save(self, data: bytes) -> Any
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:46: error: No overload variant of "save" of "Text" matches argument types "bytes", "str"  [call-overload]
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:46: note: Possible overload variants:
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:46: note:     def save(self, data: str) -> Any
 packages/ordeq/tests/resources/io/io_mixed_types_overloaded_save.py:46: note:     def save(self, data: bytes) -> Any
+packages/ordeq/tests/resources/io/input_mismatch_load_argument.py:12: error: Signature of "load" incompatible with supertype "ordeq._io._BaseInput"  [override]
+packages/ordeq/tests/resources/io/input_mismatch_load_argument.py:12: note:      Superclass:
+packages/ordeq/tests/resources/io/input_mismatch_load_argument.py:12: note:          def (*Any, **Any) -> str
+packages/ordeq/tests/resources/io/input_mismatch_load_argument.py:12: note:      Subclass:
+packages/ordeq/tests/resources/io/input_mismatch_load_argument.py:12: note:          def load(self) -> int
 packages/ordeq/tests/resources/hooks/invalid_typed_output_hook.py:5: error: Argument 1 of "before_output_save" is incompatible with supertype "ordeq._hook.OutputHook"; supertype defines the argument type as "Output[str]"  [override]
 packages/ordeq/tests/resources/hooks/invalid_typed_output_hook.py:5: note: This violates the Liskov substitution principle
 packages/ordeq/tests/resources/hooks/invalid_typed_output_hook.py:5: note: See https://mypy.readthedocs.io/en/stable/common_issues.html#incompatible-overrides
@@ -66,4 +102,4 @@ packages/ordeq/tests/resources/checks/check_after_resource.py:16: error: No over
 packages/ordeq/tests/resources/checks/check_after_resource.py:16: note: Possible overload variants:
 packages/ordeq/tests/resources/checks/check_after_resource.py:16: note:     def [FuncParams`-1, FuncReturns] node(func: Callable[FuncParams, FuncReturns], *, inputs: Sequence[Input[Any] | Callable[..., Any]] | Input[Any] | Callable[..., Any] | None = ..., outputs: Sequence[Output[Any]] | Output[Any] | None = ..., checks: Sequence[Input[Any] | Output[Any] | Callable[..., Any]] | Input[Any] | Output[Any] | Callable[..., Any] | None = ..., **attributes: Any) -> Node[FuncParams, FuncReturns]
 packages/ordeq/tests/resources/checks/check_after_resource.py:16: note:     def node(*, inputs: Sequence[Input[Any] | Callable[..., Any]] | Input[Any] | Callable[..., Any] = ..., outputs: Sequence[Output[Any]] | Output[Any] | None = ..., checks: Sequence[Input[Any] | Output[Any] | Callable[..., Any]] | Input[Any] | Output[Any] | Callable[..., Any] | None = ..., **attributes: Any) -> Callable[[Callable[FuncParams, FuncReturns]], Node[FuncParams, FuncReturns]]
-Found 32 errors in 24 files (checked 283 source files)
+Found 39 errors in 29 files (checked 283 source files)
